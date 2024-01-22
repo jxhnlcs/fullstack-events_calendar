@@ -3,9 +3,7 @@
     <div class="background">
       <div class="container">
         <div class="header">
-          <h1 style="font-size: 32px; margin-bottom: 10px;">
-            <i class="fas fa-calendar-alt"></i> EventSync
-          </h1>
+          <h1 style="font-size: 32px; margin-bottom: 10px;">EventSync</h1>
         </div>
         <div class="sub-header">
           <h2 style="font-size: 22px;">ENTRAR</h2>
@@ -18,7 +16,9 @@
             <input type="email" name="email" id="email" placeholder="Digite seu email">
             <label for="password">Senha</label>
             <input type="password" name="password" id="password" placeholder="Digite sua senha">
-            <button class="submit" @click="login">Login</button>
+            <router-link to="/home">
+              <button class="submit" @click="login">Entrar</button>
+            </router-link>
           </form>
         </div>
         <div class="footer">
