@@ -3,6 +3,7 @@
     <div class="sidebar">
       <Sidebar />
     </div>
+    
     <div class="content">
       <h1>Principais Eventos</h1>
       <EventCard />
