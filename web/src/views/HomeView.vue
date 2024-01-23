@@ -3,10 +3,12 @@
     <div class="sidebar">
       <Sidebar />
     </div>
-    
-    <div class="content">
-      <h1>Principais Eventos</h1>
-      <EventCard />
+    <div class="column-content">
+      <Navbar />
+      <div class="content">
+        <h1>Principais Eventos</h1>
+        <EventCard />
+      </div>
     </div>
   </div>
 </template>
@@ -14,11 +16,13 @@
 <script>
 import Sidebar from '../components/sidebar.vue'
 import EventCard from '../components/eventcard.vue'
+import Navbar from '../components/navbar.vue'
 
 export default {
   components: {
     Sidebar,
     EventCard,
+    Navbar,
   }
 }
 </script>
@@ -26,6 +30,10 @@ export default {
 <style scoped>
 .app {
   display: flex;
+}
+
+.column-content{
+  width: 100%;
 }
 
 .content {

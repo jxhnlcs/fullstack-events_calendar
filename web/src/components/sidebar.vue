@@ -40,7 +40,7 @@
         <div class="admin-user tooltip-element" data-tooltip="1">
           <div class="admin-profile hide">
             <div class="admin-info">
-              <h3>John</h3>
+              <h3>{{ name }}</h3>
               <h5>Usuário</h5>
             </div>
           </div>
@@ -48,7 +48,7 @@
             <i class="bx bx-log-out"></i>
           </a>
         </div>
-        
+
       </div>
     </nav>
   </div>
@@ -56,15 +56,27 @@
 
 <script>
 
+import Swal from 'sweetalert2';
+import { jwtDecode } from 'jwt-decode';
+
 export default {
   data() {
     return {
       activeIndex: null,
       isDropdownOpen: false,
-      commitVersion: '',
-      
     }
   },
+
+  created() {
+      const token = localStorage.getItem('token');
+      if (token) {
+        const decodedToken = jwtDecode(token);
+        console.log(decodedToken);
+        this.name = decodedToken.name
+      } else {
+        console.log('Nenhum token encontrado no localStorage');
+      }
+    },
 
   methods: {
     toggleDropdown() {
@@ -97,7 +109,7 @@ export default {
       const sidebar = this.$el.querySelector('nav')
       const links = this.$el.querySelectorAll('.link')
       const h4Headings = this.$el.querySelectorAll('.sidebar-links h4')
-      const logo = this.$el.querySelector('.sidebar-top .logo')
+      const logo = this.$el.querySelector('.sidebar-top .icon-logo')
       const shrinkIcon = this.$el.querySelector('.shrink-btn i')
       const sidebarFooter = this.$el.querySelector('.sidebar-footer')
       const nameHeading = this.$el.querySelector('.sidebar-top h3')
@@ -125,7 +137,6 @@ export default {
           h4.style.display = 'none'
         })
 
-        logo.style.marginLeft = '-10px'
         logo.style.marginBottom = '15px'
         shrinkIcon.classList.remove('bx-chevron-left')
         shrinkIcon.classList.add('bx-chevron-right')
@@ -320,7 +331,8 @@ nav:hover .shrink-btn,
 }
 
 .sidebar-links a.router-link-exact-active .link {
-  opacity: 1; /* Opacidade do texto quando o link está ativo */
+  opacity: 1;
+  /* Opacidade do texto quando o link está ativo */
 }
 
 
@@ -368,23 +380,6 @@ nav:hover .shrink-btn,
   display: none;
 }
 
-.account {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.3rem;
-  color: #cfcde7;
-  height: 53px;
-  width: 3.7rem;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s 0s, color 0.3s 0s;
-}
-
-.account:hover {
-  color: #fff;
-}
-
 .admin-user {
   display: flex;
   align-items: center;
@@ -398,12 +393,6 @@ nav:hover .shrink-btn,
   align-items: center;
   flex: 1;
   overflow: hidden;
-}
-
-.admin-user img {
-  width: 2.9rem;
-  border-radius: 50%;
-  margin: 0 0.4rem;
 }
 
 .admin-info {
@@ -443,44 +432,6 @@ nav:hover .shrink-btn,
 
 .log-out:hover {
   color: #fff;
-}
-
-.tooltip {
-  background-color: #3d5af1;
-  position: absolute;
-  right: -1.2rem;
-  top: 0;
-  transform: translateX(100%) translateY(-50%);
-  padding: 0 0.8rem;
-  font-size: 0.85rem;
-  display: none;
-  grid-template-rows: 1fr;
-  grid-template-columns: 1fr;
-  height: 30px;
-  align-items: center;
-  border-radius: 7px;
-  box-shadow: 0 3px 10px -3px rgba(70, 46, 118, 0.3);
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.tooltip span {
-  grid-column: 1 / 2;
-  grid-row: 1 / 2;
-  opacity: 0;
-  transition: 0.3s;
-}
-
-.tooltip span.show {
-  opacity: 1;
-}
-
-.tooltip-element:hover~.tooltip {
-  opacity: 1;
-  pointer-events: all;
 }
 
 .hide {

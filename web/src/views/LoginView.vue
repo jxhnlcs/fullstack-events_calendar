@@ -7,18 +7,17 @@
         </div>
         <div class="sub-header">
           <h2 style="font-size: 22px;">ENTRAR</h2>
-          <h4 style="font-size: 14px; color: #6C6C6C; font-weight: 400;">Entre com suas credenciais para acessar sua conta
+          <h4 style="font-size: 14px; color: #6C6C6C; font-weight: 400;">
+            Entre com suas credenciais para acessar sua conta
           </h4>
         </div>
         <div class="content">
-          <form>
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" placeholder="Digite seu email">
+          <form @submit.prevent="login">
+            <label for="username">Usuário</label>
+            <input v-model="username" type="text" name="username" id="username" placeholder="Digite seu nome de usuário">
             <label for="password">Senha</label>
-            <input type="password" name="password" id="password" placeholder="Digite sua senha">
-            <router-link to="/home">
-              <button class="submit" @click="login">Entrar</button>
-            </router-link>
+            <input v-model="password" type="password" name="password" id="password" placeholder="Digite sua senha">
+            <button class="submit">Entrar</button>
           </form>
         </div>
         <div class="footer">
@@ -30,28 +29,73 @@
 </template>
 
 <script>
-
 import axios from '@/utils/axios';
+import Swal from 'sweetalert2';
 
 export default {
-
+  beforeRouteEnter(to, from, next) {
+    document.title = to.meta.title || 'EventSync';
+    next();
+  },
+  data() {
+    return {
+      username: '',
+      password: '',
+    };
+  },
   methods: {
     async login() {
       try {
-        const response = await axios.post('URL_DA_SUA_API/login', {
-          email: 'seu_email',
-          password: 'sua_senha',
+        const response = await axios.post('/login', {
+          Username: this.username,
+          Password: this.password,
         });
 
         console.log(response.data);
+
+        if (response.data.authenticated) {
+          localStorage.setItem('token', response.data.token);
+
+          await Swal.fire({
+            icon: 'success',
+            title: 'Login feito com sucesso',
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer);
+              toast.addEventListener('mouseleave', Swal.resumeTimer);
+            },
+          });
+
+          // Redirecionar para a página inicial após o timer
+          this.$router.push('/home');
+        } else {
+          // Exibir notificação em caso de erro de login
+          await Swal.fire({
+            icon: 'error',
+            title: 'Erro ao efetuar o login',
+            text: 'Credenciais inválidas. Por favor, tente novamente.',
+          });
+        }
+
       } catch (error) {
+        // Exibir notificação em caso de erro genérico
+        await Swal.fire({
+          icon: 'error',
+          title: 'Erro ao efetuar o login',
+          text: 'Ocorreu um erro ao processar o login. Por favor, tente novamente mais tarde.',
+        });
+
         console.error('Erro ao efetuar o login:', error.message);
       }
     },
   },
-  
-}
+};
 </script>
+
 
 <style scoped>
 body {

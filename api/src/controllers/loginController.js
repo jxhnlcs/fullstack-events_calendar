@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const secretKey = 'sua_chave_secreta';
 
 const fazerLogin = (req, res) => {
-  const { username, password } = req.body;
+  const { Username, Password } = req.body;
 
   const userQuery = `
     SELECT * 
@@ -14,18 +14,19 @@ const fazerLogin = (req, res) => {
     WHERE Username = ? AND Password = SHA2(?, 256)
   `;
 
-  db.query(userQuery, [username, password], (err, userData) => {
+  db.query(userQuery, [Username, Password], (err, userData) => {
     if (err) {
       console.error('Erro ao fazer login na tabela Users:', err);
       return res.status(500).json({ message: 'Erro interno do servidor' });
     }
 
     if (Array.isArray(userData) && userData.length === 1) {
-      const { username, password } = userData[0];
+      const { UserID, Username, Name } = userData[0];
 
       const userInfo = {
-        UserId: username,
-        Username: password,
+        userid: UserID,
+        user: Username,
+        name: Name
       };
 
       const token = jwt.sign(userInfo, secretKey, { expiresIn: '5h' });
