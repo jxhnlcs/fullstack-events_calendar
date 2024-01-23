@@ -5,14 +5,14 @@
         <span class="shrink-btn" @click="toggleSidebar" ref="shrinkBtn">
           <i class="bx bx-chevron-left"></i>
         </span>
-        <img src="../assets/logo.png" class="logo" alt="" />
+        <i class="fas fa-calendar-alt icon-logo"></i>
         <h3 class="hide">EventSync</h3>
       </div>
       <div class="sidebar-links">
         <ul>
           <h4 class="hide">Principais Recursos</h4>
           <li class="tooltip-element" data-tooltip="0">
-            <router-link to="/dashboard">
+            <router-link to="/home">
               <a href="#">
                 <div class="icon">
                   <i class="bx bx-tachometer"></i>
@@ -23,7 +23,7 @@
             </router-link>
           </li>
           <li data-tooltip="0">
-            <router-link to="/leitorqrcode">
+            <router-link to="/myevents">
               <a href="#">
                 <div class="icon">
                   <i class="bx bx-devices"></i>
@@ -213,9 +213,10 @@ main .copyright span {
   align-items: center;
 }
 
-.sidebar-top .logo {
+.sidebar-top .icon-logo {
   width: 5.1rem;
   margin: 0 0.8rem;
+  font-size: 3rem;
 }
 
 .sidebar-top h3 {
@@ -223,7 +224,7 @@ main .copyright span {
 
   padding-left: 0.5rem;
   font-weight: 600;
-  font-size: 1.15rem;
+  font-size: 1.65rem;
 }
 
 .shrink-btn {
@@ -247,8 +248,6 @@ main .copyright span {
   transition: 0.3s;
 }
 
-
-
 .shrink-btn:hover {
   background-color: #3651d4;
 }
@@ -259,22 +258,10 @@ nav:hover .shrink-btn,
   opacity: 1;
   pointer-events: all;
 }
-.search input {
-  height: 100%;
-  border: none;
-  background: none;
-  outline: none;
-  color: #fff;
-  caret-color: #fff;
-  font-family: inherit;
-}
-
-.search input::placeholder {
-  color: #cfcde7;
-}
 
 .sidebar-links ul {
   position: relative;
+  margin-top: 20px;
 }
 
 .sidebar-links li {

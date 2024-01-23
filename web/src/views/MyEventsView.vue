@@ -4,7 +4,7 @@
       <Sidebar />
     </div>
     <div class="content">
-      <h1>Principais Eventos</h1>
+      <h1>Meu Eventos</h1>
       <EventCard />
     </div>
   </div>
