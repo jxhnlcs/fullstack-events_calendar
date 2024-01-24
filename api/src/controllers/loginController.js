@@ -1,22 +1,13 @@
-// Login
-
-const { db } = require('../models/db');
 const jwt = require('jsonwebtoken');
+const loginModel = require('../models/loginModel');
 
 const secretKey = 'sua_chave_secreta';
 
 const fazerLogin = (req, res) => {
   const { Username, Password } = req.body;
 
-  const userQuery = `
-    SELECT * 
-    FROM Users
-    WHERE Username = ? AND Password = SHA2(?, 256)
-  `;
-
-  db.query(userQuery, [Username, Password], (err, userData) => {
+  loginModel.getUserByUsernameAndPassword(Username, Password, (err, userData) => {
     if (err) {
-      console.error('Erro ao fazer login na tabela Users:', err);
       return res.status(500).json({ message: 'Erro interno do servidor' });
     }
 
@@ -26,7 +17,7 @@ const fazerLogin = (req, res) => {
       const userInfo = {
         userid: UserID,
         user: Username,
-        name: Name
+        name: Name,
       };
 
       const token = jwt.sign(userInfo, secretKey, { expiresIn: '5h' });
@@ -41,14 +32,8 @@ const fazerLogin = (req, res) => {
 const cadastrarUsuario = (req, res) => {
   const { name, username, password, email } = req.body;
 
-  const insertUserQuery = `
-    INSERT INTO Users (Name, Username, Password, Email)
-    VALUES (?, ?, SHA2(?, 256), ?)
-  `;
-
-  db.query(insertUserQuery, [name, username, password, email], (err, result) => {
+  loginModel.insertUser(name, username, password, email, (err) => {
     if (err) {
-      console.error('Erro ao cadastrar usuário na tabela Users:', err);
       return res.status(500).json({ message: 'Erro interno do servidor' });
     }
 

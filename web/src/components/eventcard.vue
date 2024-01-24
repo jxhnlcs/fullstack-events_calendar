@@ -1,27 +1,18 @@
 <template>
   <div class="event-card">
-    <img :src="event.imageUrl" alt="Event Image">
-    <h2>{{ event.name }}</h2>
-    <p>{{ event.participants }} participantes</p>
-    <p>{{ event.description }}</p>
-    <p>Hora de Início: {{ event.startTime }}</p>
-    <p>Hora de Término: {{ event.endTime }}</p>
+    <p>{{ event.Description }}</p>
+    <p>Hora de Início: {{ event.StartTime }}</p>
+    <p>Hora de Término: {{ event.EndTime }}</p>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      event: {
-        name: "Exemplo de Evento",
-        imageUrl: "URL_DA_IMAGEM",
-        participants: 50,
-        description: "Descrição do evento...",
-        startTime: "14:00",
-        endTime: "17:00",
-      },
-    };
+  props: {
+    event: {
+      type: Object,
+      required: true,
+    },
   },
 };
 </script>
