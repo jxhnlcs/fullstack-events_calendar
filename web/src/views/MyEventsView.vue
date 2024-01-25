@@ -29,6 +29,11 @@ export default {
     Navbar,
   },
 
+  beforeRouteEnter(to, from, next) {
+    document.title = to.meta.title || 'EventSync';
+    next();
+  },
+
   data() {
     return {
       myEvents: [],

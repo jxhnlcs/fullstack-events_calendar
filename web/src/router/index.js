@@ -13,11 +13,13 @@ const routes = [
     path: '/home',
     name: 'home',
     component: () => import('../views/HomeView.vue'),
+    meta: { title: 'Principais Eventos' },
   },
   {
     path: '/myevents',
     name: 'myevents',
     component: () => import('../views/MyEventsView.vue'),
+    meta: { title: 'Meus Eventos' },
   },
 ];
 

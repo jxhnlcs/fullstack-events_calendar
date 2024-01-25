@@ -27,14 +27,22 @@ export default {
     EventCard,
     Navbar,
   },
+
+  beforeRouteEnter(to, from, next) {
+    document.title = to.meta.title || 'EventSync';
+    next();
+  },
+
   data() {
     return {
       allEvents: [],
     }
   },
+
   mounted() {
     this.fetchAllEvents()
   },
+  
   methods: {
     async fetchAllEvents() {
       try {

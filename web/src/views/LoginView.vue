@@ -56,6 +56,7 @@ export default {
     document.title = to.meta.title || 'EventSync';
     next();
   },
+  
   data() {
     return {
       activeForm: 'signIn',
