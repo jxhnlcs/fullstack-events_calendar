@@ -3,31 +3,54 @@ const eventModel = require('../models/eventModel');
 const createEvent = (req, res) => {
   const eventData = req.body;
 
-  eventModel.createEvent(eventData, (err, result) => {
+  eventModel.getEventByProperties(eventData, (err, existingEvent) => {
     if (err) {
-      console.error('Erro ao criar evento:', err);
+      console.error('Erro ao verificar conflito:', err);
       return res.status(500).json({ message: 'Erro interno do servidor' });
     }
 
-    return res.status(201).json({ message: 'Evento criado com sucesso', eventId: result.insertId });
+    if (existingEvent) {
+      return res.status(409).json({ message: 'Já existe um evento com as mesmas propriedades.' });
+    }
+
+    eventModel.createEvent(eventData, (err, result) => {
+      if (err) {
+        console.error('Erro ao criar evento:', err);
+        return res.status(500).json({ message: 'Erro interno do servidor' });
+      }
+
+      return res.status(201).json({ message: 'Evento criado com sucesso', eventId: result.insertId });
+    });
   });
 };
+
 
 const updateEvent = (req, res) => {
   const eventId = req.params.eventId;
   const eventData = req.body;
 
-  eventModel.updateEvent(eventId, eventData, (err, result) => {
+  eventModel.getEventByProperties(eventData, (err, existingEvent) => {
     if (err) {
-      console.error('Erro ao atualizar evento:', err);
+      console.error('Erro ao verificar conflito:', err);
       return res.status(500).json({ message: 'Erro interno do servidor' });
     }
 
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ message: 'Evento não encontrado' });
+    if (existingEvent) {
+      return res.status(409).json({ message: 'Já existe um evento com as mesmas propriedades.' });
     }
 
-    return res.status(200).json({ message: 'Evento atualizado com sucesso' });
+    eventModel.updateEvent(eventId, eventData, (err, result) => {
+      if (err) {
+        console.error('Erro ao atualizar evento:', err);
+        return res.status(500).json({ message: 'Erro interno do servidor' });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ message: 'Evento não encontrado' });
+      }
+
+      return res.status(200).json({ message: 'Evento atualizado com sucesso' });
+    });
   });
 };
 

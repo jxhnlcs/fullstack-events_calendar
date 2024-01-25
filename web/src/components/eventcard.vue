@@ -11,6 +11,9 @@
         <strong>Hora de Término:</strong> {{ formattedTime(event.EndTime) }}
       </div>
     </div>
+    <div class="event-card-footer" v-if="isHomeView">
+      <p class="event-description">Criado por {{ event.Name }}</p>
+    </div>
   </div>
 </template>
 
@@ -20,6 +23,10 @@ export default {
     event: {
       type: Object,
       required: true,
+    },
+    isHomeView: {
+      type: Boolean,
+      default: true,
     },
   },
   methods: {

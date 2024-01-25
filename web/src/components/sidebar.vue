@@ -473,8 +473,9 @@ body.shrink .tooltip {
 
 @media only screen and (max-width: 1000px) {
   nav {
-    height: 90vh;
-    width: 5.4rem;
+    height: 101vh;
+    width: 4.4rem;
+    padding: 1.8rem 0.1rem;
   }
 
   .sidebar-top .logo {
@@ -496,15 +497,6 @@ body.shrink .tooltip {
 
   .hide {
     display: none;
-  }
-
-  .bx-caret-down {
-    margin-top: 35px;
-    margin-left: -10px;
-  }
-
-  .ul_relatorios {
-    margin-left: 0px;
   }
 }
 </style>

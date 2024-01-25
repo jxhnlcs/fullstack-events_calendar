@@ -52,7 +52,9 @@ const deleteEvent = (eventId, callback) => {
 
 const getAllEvents = (callback) => {
   const getAllEventsQuery = `
-    SELECT * FROM Events
+    SELECT Events.*, Users.Name
+    FROM Events
+    INNER JOIN Users ON Events.UserID = Users.UserID
   `;
 
   db.query(getAllEventsQuery, (err, result) => {
@@ -79,10 +81,29 @@ const getEventsByUserId = (userId, callback) => {
   });
 };
 
+const getEventByProperties = (eventData, callback) => {
+  const { UserID, Description, StartTime, EndTime } = eventData;
+
+  const query = `
+    SELECT * FROM Events
+    WHERE UserID = ? AND Description = ? AND StartTime = ? AND EndTime = ?
+  `;
+
+  db.query(query, [UserID, Description, StartTime, EndTime], (err, result) => {
+    if (err) {
+      return callback(err, null);
+    }
+
+    const existingEvent = result[0];
+    callback(null, existingEvent);
+  });
+};
+
 module.exports = {
   createEvent,
   updateEvent,
   deleteEvent,
   getAllEvents,
   getEventsByUserId,
+  getEventByProperties,
 };

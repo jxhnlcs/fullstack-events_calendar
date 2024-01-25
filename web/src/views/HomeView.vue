@@ -8,11 +8,7 @@
       <div class="content">
         <h1>Principais Eventos</h1>
         <div class="eventGrid">
-          <EventCard
-            v-for="event in allEvents"
-            :key="event.EventID"
-            :event="event"
-          />
+          <EventCard v-for="event in allEvents" :key="event.EventID" :event="event" />
         </div>
       </div>
     </div>
@@ -54,7 +50,6 @@ export default {
 </script>
 
 <style scoped>
-
 .app {
   display: flex;
 }
@@ -62,6 +57,7 @@ export default {
 .column-content {
   width: 100%;
 }
+
 .content {
   margin: 20px;
 }
@@ -69,13 +65,22 @@ export default {
 .eventGrid {
   margin-top: 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
+
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
 }
 
 @media (max-width: 768px) {
+
+  .app {
+    overflow: hidden;
+  }
+
   .eventGrid {
     grid-template-columns: 1fr;
+    max-height: 80vh;
   }
 }
 </style>
