@@ -18,15 +18,15 @@ const createEvent = (eventData, callback) => {
 };
 
 const updateEvent = (eventId, eventData, callback) => {
-  const { Description, StartTime, EndTime } = eventData;
+  const { UserID, Description, StartTime, EndTime } = eventData;
 
   const updateEventQuery = `
     UPDATE Events
-    SET Description = ?, StartTime = ?, EndTime = ?
+    SET UserId = ?, Description = ?, StartTime = ?, EndTime = ?
     WHERE EventID = ?
   `;
 
-  db.query(updateEventQuery, [Description, StartTime, EndTime, eventId], (err, result) => {
+  db.query(updateEventQuery, [UserID, Description, StartTime, EndTime, eventId], (err, result) => {
     if (err) {
       return callback(err, null);
     }

@@ -30,9 +30,9 @@ const fazerLogin = (req, res) => {
 };
 
 const cadastrarUsuario = (req, res) => {
-  const { name, username, password, email } = req.body;
+  const { Name, Username, Password, Email } = req.body;
 
-  loginModel.insertUser(name, username, password, email, (err) => {
+  loginModel.insertUser(Name, Username, Password, Email, (err) => {
     if (err) {
       return res.status(500).json({ message: 'Erro interno do servidor' });
     }

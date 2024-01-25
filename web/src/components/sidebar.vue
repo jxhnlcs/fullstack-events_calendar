@@ -175,7 +175,7 @@ nav {
   position: sticky;
   top: 0;
   left: 0;
-  background-color: #2b62cc;
+  background-color: #274CB3;
   height: 100vh;
   width: 16rem;
   padding: 1.8rem 0.85rem;
@@ -213,7 +213,7 @@ main .copyright {
 }
 
 main .copyright span {
-  color: #2b62cc;
+  color: #274CB3;
   font-weight: 500;
   cursor: pointer;
 }
@@ -243,7 +243,7 @@ main .copyright span {
   top: 50%;
   height: 27px;
   padding: 0 0.3rem;
-  background-color: #3d5af1;
+  background-color: #274CB3;
   border-radius: 6px;
   cursor: pointer;
   box-shadow: 0 3px 10px -3px rgba(70, 46, 118, 0.3);
@@ -419,7 +419,7 @@ nav:hover .shrink-btn,
   display: flex;
   height: 40px;
   min-width: 2.4rem;
-  background-color: #3651d4;
+  background-color: #082575;
   color: #cfcde7;
   align-items: center;
   justify-content: center;
