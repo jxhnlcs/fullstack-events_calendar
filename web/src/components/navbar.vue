@@ -5,7 +5,7 @@
         <input type="text" id="search" v-model="searchQuery" placeholder="Pesquisar" />
       </div>
 
-      <button @click="addItem" class="add-button">+</button>
+      <button v-if="isMyEventsView" @click="addItem" class="add-button">+</button>
     </div>
   </nav>
 </template>
@@ -17,6 +17,14 @@ export default {
       searchQuery: "",
     };
   },
+
+  props: {
+    isMyEventsView: {
+      type: Boolean,
+      default: true,
+    },
+  },
+
   methods: {
     search() {
       // Lógica de pesquisa aqui

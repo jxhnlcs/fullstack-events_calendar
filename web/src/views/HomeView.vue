@@ -4,7 +4,7 @@
       <Sidebar />
     </div>
     <div class="column-content">
-      <Navbar />
+      <Navbar :isMyEventsView="false" />
       <div class="content">
         <h1>Principais Eventos</h1>
         <div class="eventGrid">
