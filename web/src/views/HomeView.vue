@@ -4,11 +4,18 @@
       <Sidebar />
     </div>
     <div class="column-content">
-      <Navbar :isMyEventsView="false" />
+      <Navbar :isMyEventsView="false" @search-events="handleSearch" />
       <div class="content">
         <h1>Principais Eventos</h1>
         <div class="eventGrid">
-          <EventCard v-for="event in allEvents" :key="event.EventID" :event="event" />
+          <div v-if="filteredEvents.length === 0">
+            Nenhum evento encontrado.
+          </div>
+          <EventCard
+            v-for="event in filteredEvents"
+            :key="event.EventID"
+            :event="event"
+          />
         </div>
       </div>
     </div>
@@ -29,29 +36,37 @@ export default {
   },
 
   beforeRouteEnter(to, from, next) {
-    document.title = to.meta.title || 'EventSync';
-    next();
+    document.title = to.meta.title || 'EventSync'
+    next()
   },
 
   data() {
     return {
       allEvents: [],
+      filteredEvents: [],
     }
   },
 
   mounted() {
     this.fetchAllEvents()
   },
-  
+
   methods: {
     async fetchAllEvents() {
       try {
         const response = await axios.get('/events')
         this.allEvents = response.data
+        this.filteredEvents = response.data
         console.log(this.allEvents)
       } catch (error) {
         console.error('Erro ao buscar todos os eventos:', error.message)
       }
+    },
+
+    handleSearch(query) {
+      this.filteredEvents = this.allEvents.filter(event =>
+        event.Description.toLowerCase().includes(query.toLowerCase())
+      )
     },
   },
 }
@@ -68,6 +83,7 @@ export default {
 
 .content {
   margin: 20px;
+  color: #274CB3;
 }
 
 .eventGrid {
@@ -81,7 +97,6 @@ export default {
 }
 
 @media (max-width: 768px) {
-
   .app {
     overflow: hidden;
   }

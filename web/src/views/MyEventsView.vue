@@ -4,11 +4,14 @@
       <Sidebar />
     </div>
     <div class="column-content">
-      <Navbar />
+      <Navbar @search-events="handleSearch"/>
       <div class="content">
         <h1>Meus Eventos</h1>
         <div class="eventGrid">
-          <EventCard v-for="event in myEvents" :key="event.EventID" :event="event" :isHomeView="false" />
+          <div class="row-error" v-if="filteredEvents.length === 0">
+            Nenhum evento encontrado.
+          </div>
+          <EventCard v-for="event in filteredEvents" :key="event.EventID" :event="event" :isHomeView="false" />
         </div>
       </div>
     </div>
@@ -38,6 +41,7 @@ export default {
     return {
       myEvents: [],
       userId: null,
+      filteredEvents: [],
     }
   },
 
@@ -57,10 +61,17 @@ export default {
       try {
         const response = await axios.get(`/events/${this.userId}`)
         this.myEvents = response.data
+        this.filteredEvents = response.data
         console.log(this.myEvents)
       } catch (error) {
         console.error('Erro ao buscar todos os eventos:', error.message)
       }
+    },
+
+    handleSearch(query) {
+      this.filteredEvents = this.myEvents.filter(event =>
+        event.Description.toLowerCase().includes(query.toLowerCase())
+      )
     },
   },
 }
@@ -77,6 +88,10 @@ export default {
 
 .content {
   margin: 20px;
+}
+
+.content h1 {
+  color: #274CB3;
 }
 
 .eventGrid {

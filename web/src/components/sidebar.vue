@@ -5,8 +5,8 @@
         <span class="shrink-btn" @click="toggleSidebar" ref="shrinkBtn">
           <i class="bx bx-chevron-left"></i>
         </span>
-        <i class="fas fa-calendar-alt icon-logo"></i>
-        <h3 class="hide">EventSync</h3>
+        <img src="../assets/images/logotipo.png" class="icon-logo" alt="Logotipo">
+        <img class="hide logomarca" src="../assets/images/logomarca.png" alt="Logomarca">
       </div>
       <div class="sidebar-links">
         <ul>
@@ -15,10 +15,10 @@
             <router-link to="/home">
               <a href="#">
                 <div class="icon">
-                  <i class="bx bx-tachometer"></i>
-                  <i class="bx bxs-tachometer"></i>
+                  <i class="bx bxs-home"></i>
+                  <i class="bx bxs-home"></i>
                 </div>
-                <span class="link hide">Página Inicial</span>
+                <span class="link hide">Principais Eventos</span>
               </a>
             </router-link>
           </li>
@@ -26,8 +26,8 @@
             <router-link to="/myevents">
               <a href="#">
                 <div class="icon">
-                  <i class="bx bx-devices"></i>
-                  <i class="bx bxs-devices"></i>
+                  <i class="bx bx-calendar-event"></i>
+                  <i class="bx bxs-calendar-event"></i>
                 </div>
                 <span class="link hide">Meus Eventos</span>
               </a>
@@ -112,7 +112,7 @@ export default {
       const logo = this.$el.querySelector('.sidebar-top .icon-logo')
       const shrinkIcon = this.$el.querySelector('.shrink-btn i')
       const sidebarFooter = this.$el.querySelector('.sidebar-footer')
-      const nameHeading = this.$el.querySelector('.sidebar-top h3')
+      const nameHeading = this.$el.querySelector('.sidebar-top .logomarca')
 
       if (this.$el.classList.contains('shrink')) {
         sidebarFooter.classList.add('footer-auto-margin')
@@ -225,13 +225,14 @@ main .copyright span {
 }
 
 .sidebar-top .icon-logo {
-  width: 5.1rem;
-  margin: 0 0.8rem;
+  width: 3.1rem;
+  margin: 0 0.1rem;
   font-size: 3rem;
 }
 
-.sidebar-top h3 {
+.sidebar-top img {
   cursor: default;
+  width: 130px;
 
   padding-left: 0.5rem;
   font-weight: 600;
@@ -478,8 +479,8 @@ body.shrink .tooltip {
     padding: 1.8rem 0.1rem;
   }
 
-  .sidebar-top .logo {
-    margin-left: -10px;
+  .sidebar-top .icon-logo {
+    margin: 0 0.1rem;
   }
 
   .icon {

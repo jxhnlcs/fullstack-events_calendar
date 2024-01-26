@@ -2,7 +2,7 @@
   <nav class="navbar">
     <div class="navbar-container">
       <div class="search-container">
-        <input type="text" id="search" v-model="searchQuery" placeholder="Pesquisar" />
+        <input type="text" id="search" v-model="searchQuery" @input="search" placeholder="Pesquisar" />
       </div>
 
       <button v-if="isMyEventsView" @click="addItem" class="add-button">+</button>
@@ -27,11 +27,9 @@ export default {
 
   methods: {
     search() {
-      // Lógica de pesquisa aqui
-      console.log("Pesquisando:", this.searchQuery);
+      this.$emit("search-events", this.searchQuery);
     },
     addItem() {
-      // Lógica para adicionar item aqui
       console.log("Adicionando item");
     },
   },
