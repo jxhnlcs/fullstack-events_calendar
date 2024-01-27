@@ -83,6 +83,9 @@ export default {
 
 .content {
   margin: 20px;
+}
+
+.content h1 {
   color: #274CB3;
 }
 

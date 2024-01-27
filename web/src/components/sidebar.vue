@@ -71,7 +71,6 @@ export default {
       const token = localStorage.getItem('token');
       if (token) {
         const decodedToken = jwtDecode(token);
-        console.log(decodedToken);
         this.name = decodedToken.name
       } else {
         console.log('Nenhum token encontrado no localStorage');

@@ -4,13 +4,15 @@
       <Sidebar />
     </div>
     <div class="column-content">
-      <Navbar @search-events="handleSearch"/>
+      <Navbar @search-events="handleSearch" />
       <div class="content">
         <h1>Meus Eventos</h1>
         <div class="eventGrid">
           <div class="row-error" v-if="filteredEvents.length === 0">
             Nenhum evento encontrado.
           </div>
+          <EventEditModal :showEditModal="showEditModal" :eventToEdit="eventToEdit" @edit-event="handleEditEvent"
+            @close-edit-modal="closeEditModal" />
           <EventCard v-for="event in filteredEvents" :key="event.EventID" :event="event" :isHomeView="false" />
         </div>
       </div>
@@ -21,6 +23,7 @@
 <script>
 import Sidebar from '../components/sidebar.vue'
 import EventCard from '../components/eventcard.vue'
+import EventEditModal from '../components/eventEditModal.vue';
 import Navbar from '../components/navbar.vue'
 import axios from '@/utils/axios'
 import { jwtDecode } from 'jwt-decode'
@@ -30,6 +33,7 @@ export default {
     Sidebar,
     EventCard,
     Navbar,
+    EventEditModal,
   },
 
   beforeRouteEnter(to, from, next) {

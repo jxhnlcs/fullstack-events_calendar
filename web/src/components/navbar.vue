@@ -5,16 +5,27 @@
         <input type="text" id="search" v-model="searchQuery" @input="search" placeholder="Pesquisar" />
       </div>
 
-      <button v-if="isMyEventsView" @click="addItem" class="add-button">+</button>
+      <button v-if="isMyEventsView" @click="openModal" class="add-button">+</button>
+      <event-form-modal :showModal="modalVisible" @add-event="handleAddEvent" @close-modal="closeModal" />
     </div>
   </nav>
 </template>
 
 <script>
+import EventFormModal from "../components/eventFormModal.vue";
+import axios from '@/utils/axios'
+import Swal from 'sweetalert2';
+
 export default {
+
+  components: {
+    EventFormModal,
+  },
+
   data() {
     return {
       searchQuery: "",
+      modalVisible: false,
     };
   },
 
@@ -29,8 +40,37 @@ export default {
     search() {
       this.$emit("search-events", this.searchQuery);
     },
-    addItem() {
-      console.log("Adicionando item");
+
+    openModal() {
+      this.modalVisible = true;
+    },
+
+    handleAddEvent(formData) {
+      console.log(formData)
+      axios.post('/events', formData)
+        .then(response => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Evento Adicionado com Sucesso!',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+
+          console.log('Evento adicionado com sucesso:', response.data);
+        })
+        .catch(error => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro ao Adicionar Evento',
+            text: 'Por favor, tente novamente.',
+          });
+
+          console.error('Erro ao adicionar evento:', error);
+        });
+    },
+
+    closeModal() {
+      this.modalVisible = false;
     },
   },
 };
@@ -38,7 +78,7 @@ export default {
 
 <style scoped>
 .navbar {
-  background-color: #F3F3F3;
+  background-color: #eeeeee;
   padding: 14px;
   width: 100%;
 }
@@ -67,7 +107,8 @@ input {
   border: solid 1px #cfcfcf;
 }
 
-.search-button, .add-button {
+.search-button,
+.add-button {
   background-color: #ffffff;
   color: rgb(99, 99, 99);
   font-size: 20px;
@@ -75,14 +116,14 @@ input {
   border: solid 1px #cfcfcf;
   padding: 6px 12px;
   cursor: pointer;
+  font-weight: 600;
 }
 
 @media (max-width: 768px) {
   .navbar-container {
-  display: flex;
-  justify-content:space-between;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
-}
-
 </style>
