@@ -69,7 +69,6 @@ export default {
         StartTime: this.formatDate(event.StartTime),
         EndTime: this.formatDate(event.EndTime),
       };
-      console.log(event)
     },
 
     handleEditSubmit() {

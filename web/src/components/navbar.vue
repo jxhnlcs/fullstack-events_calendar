@@ -60,15 +60,24 @@ export default {
           this.$emit("event-added");
         })
         .catch(error => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Erro ao Adicionar Evento',
-            text: 'Por favor, tente novamente.',
-          });
+          if (error.response && error.response.status === 409) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Erro ao Adicionar Evento',
+              text: 'Já existe um evento com as mesmas propriedades.',
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Erro ao Adicionar Evento',
+              text: 'Por favor, tente novamente.',
+            });
 
-          console.error('Erro ao adicionar evento:', error);
+            console.error('Erro ao adicionar evento:', error);
+          }
         });
     },
+
 
     closeModal() {
       this.modalVisible = false;

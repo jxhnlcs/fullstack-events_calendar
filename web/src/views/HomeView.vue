@@ -15,6 +15,7 @@
             v-for="event in filteredEvents"
             :key="event.EventID"
             :event="event"
+            :isMyEventsView="false"
           />
         </div>
       </div>
@@ -57,7 +58,6 @@ export default {
         const response = await axios.get('/events')
         this.allEvents = response.data
         this.filteredEvents = response.data
-        console.log(this.allEvents)
       } catch (error) {
         console.error('Erro ao buscar todos os eventos:', error.message)
       }

@@ -12,10 +12,10 @@
             Nenhum evento encontrado.
           </div>
           <EventEditModal :showEditModal="showEditModal" :eventToEdit="selectedEvent" @edit-event="handleEditEvent"
-          @close-edit-modal="closeEditModal"/>
+            @close-edit-modal="closeEditModal" />
 
           <EventCard v-for="event in filteredEvents" :key="event.EventID" :event="event" :isHomeView="false"
-            @click="handleEventClick(event)" />
+            @click="handleEventClick(event)" @event-deleted="handleDeleteEvent" />
         </div>
       </div>
     </div>
@@ -29,6 +29,7 @@ import EventEditModal from '../components/eventEditModal.vue';
 import Navbar from '../components/navbar.vue'
 import axios from '@/utils/axios'
 import { jwtDecode } from 'jwt-decode'
+import Swal from 'sweetalert2';
 
 export default {
   components: {
@@ -69,7 +70,6 @@ export default {
         const response = await axios.get(`/events/${this.userId}`)
         this.myEvents = response.data
         this.filteredEvents = response.data
-        console.log(this.myEvents)
       } catch (error) {
         console.error('Erro ao buscar todos os eventos:', error.message)
       }
@@ -85,6 +85,10 @@ export default {
       this.fetchMyEvents();
     },
 
+    handleDeleteEvent() {
+      this.fetchMyEvents();
+    },
+
     handleEventClick(selectedEvent) {
       this.selectedEvent = selectedEvent;
       this.showEditModal = true;
@@ -96,19 +100,41 @@ export default {
     },
 
     async handleEditEvent(editFormData) {
-    try {
-      const eventId = this.selectedEvent.EventID;
-      const response = await axios.put(`/events/${eventId}`, editFormData);
+      try {
+        const eventId = this.selectedEvent.EventID;
+        const response = await axios.put(`/events/${eventId}`, editFormData);
 
-      console.log('Evento atualizado com sucesso:', response.data);
+        Swal.fire({
+          icon: 'success',
+          title: 'Evento Atualizado com Sucesso!',
+          showConfirmButton: false,
+          timer: 1500,
+        });
 
-      this.fetchMyEvents();
-      this.closeEditModal();
+        console.log('Evento atualizado com sucesso:', response.data);
 
-    } catch (error) {
-      console.error('Erro ao atualizar evento:', error.message);
-    }
-  },
+        this.fetchMyEvents();
+        this.closeEditModal();
+
+      } catch (error) {
+        if (error.response && error.response.status === 409) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro ao Atualizar Evento',
+            text: 'Já existe um evento com as mesmas propriedades.',
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro ao Atualizar Evento',
+            text: 'Por favor, tente novamente.',
+          });
+
+          console.error('Erro ao atualizar evento:', error.message);
+        }
+      }
+    },
+
   },
 }
 </script>
