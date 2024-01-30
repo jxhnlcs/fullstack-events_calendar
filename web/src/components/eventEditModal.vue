@@ -1,4 +1,3 @@
-<!-- EventEditModal.vue -->
 <template>
   <div class="modal-overlay" v-if="showEditModal">
     <div class="modal">
@@ -26,10 +25,17 @@
 </template>
 
 <script>
+
 export default {
   props: {
     showEditModal: Boolean,
     eventToEdit: Object,
+  },
+
+  watch: {
+    eventToEdit(newEvent) {
+      this.fillForm(newEvent);
+    },
   },
 
   data() {
@@ -43,18 +49,45 @@ export default {
   },
 
   methods: {
+
+    formatDate(dateString) {
+      const date = new Date(dateString);
+
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+
+      return `${year}-${month}-${day}T${hours}:${minutes}`;
+    },
+
+    fillForm(event) {
+      this.editFormData = {
+        UserID: event.UserID,
+        Description: event.Description,
+        StartTime: this.formatDate(event.StartTime),
+        EndTime: this.formatDate(event.EndTime),
+      };
+      console.log(event)
+    },
+
     handleEditSubmit() {
       this.$emit("edit-event", this.editFormData);
+      this.clearForm();
+      this.closeEditModal();
+    },
+
+    closeEditModal() {
+      this.$emit('close-edit-modal');
+    },
+
+    clearForm() {
       this.editFormData = {
         Description: "",
         StartTime: "",
         EndTime: "",
       };
-      this.closeEditModal();
-    },
-    
-    closeEditModal() {
-      this.$emit("close-edit-modal");
     },
   },
 };

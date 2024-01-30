@@ -4,16 +4,18 @@
       <Sidebar />
     </div>
     <div class="column-content">
-      <Navbar @search-events="handleSearch" />
+      <Navbar @search-events="handleSearch" @event-added="handleEventAdded" />
       <div class="content">
         <h1>Meus Eventos</h1>
         <div class="eventGrid">
           <div class="row-error" v-if="filteredEvents.length === 0">
             Nenhum evento encontrado.
           </div>
-          <EventEditModal :showEditModal="showEditModal" :eventToEdit="eventToEdit" @edit-event="handleEditEvent"
-            @close-edit-modal="closeEditModal" />
-          <EventCard v-for="event in filteredEvents" :key="event.EventID" :event="event" :isHomeView="false" />
+          <EventEditModal :showEditModal="showEditModal" :eventToEdit="selectedEvent" @edit-event="handleEditEvent"
+          @close-edit-modal="closeEditModal"/>
+
+          <EventCard v-for="event in filteredEvents" :key="event.EventID" :event="event" :isHomeView="false"
+            @click="handleEventClick(event)" />
         </div>
       </div>
     </div>
@@ -46,6 +48,7 @@ export default {
       myEvents: [],
       userId: null,
       filteredEvents: [],
+      selectedEvent: null,
     }
   },
 
@@ -77,6 +80,35 @@ export default {
         event.Description.toLowerCase().includes(query.toLowerCase())
       )
     },
+
+    handleEventAdded() {
+      this.fetchMyEvents();
+    },
+
+    handleEventClick(selectedEvent) {
+      this.selectedEvent = selectedEvent;
+      this.showEditModal = true;
+    },
+
+    closeEditModal() {
+      this.showEditModal = false;
+      this.$forceUpdate();
+    },
+
+    async handleEditEvent(editFormData) {
+    try {
+      const eventId = this.selectedEvent.EventID;
+      const response = await axios.put(`/events/${eventId}`, editFormData);
+
+      console.log('Evento atualizado com sucesso:', response.data);
+
+      this.fetchMyEvents();
+      this.closeEditModal();
+
+    } catch (error) {
+      console.error('Erro ao atualizar evento:', error.message);
+    }
+  },
   },
 }
 </script>

@@ -46,7 +46,6 @@ export default {
     },
 
     handleAddEvent(formData) {
-      console.log(formData)
       axios.post('/events', formData)
         .then(response => {
           Swal.fire({
@@ -57,6 +56,8 @@ export default {
           });
 
           console.log('Evento adicionado com sucesso:', response.data);
+
+          this.$emit("event-added");
         })
         .catch(error => {
           Swal.fire({
