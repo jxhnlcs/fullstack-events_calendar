@@ -2,6 +2,8 @@
 
 O EventSync é um sistema de controle de eventos, no qual o usuário poderá adicionar, editar, remover e visualizar tanto seus eventos, quanto dos outros usuários, desafio proposto pela Tokenlab
 
+![EventSync](https://cdn.discordapp.com/attachments/695042455724228638/1201997381193961504/Prancheta_1_2_1.png?ex=65cbda4b&is=65b9654b&hm=c212599ad8a730353535233922e4609624b24482210e74e00fd00bc7865e3aa8&)
+
 ## Pré-requisitos
 
 - [Node.js](https://nodejs.org/) instalado e configurado.
