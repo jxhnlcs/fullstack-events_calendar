@@ -41,8 +41,22 @@ const getPendingInvitations = (req, res) => {
   });
 };
 
+const getConfirmedEventsByUserId = (req, res) => {
+  const userId = req.params.userId;
+
+  inviteModel.getConfirmedEventsByUserId(userId, (err, result) => {
+    if (err) {
+      console.error('Erro ao buscar eventos confirmados:', err);
+      return res.status(500).json({ message: 'Erro interno do servidor' });
+    }
+
+    return res.status(200).json(result);
+  });
+};
+
 module.exports = {
   sendInvite,
   updateInviteStatus,
   getPendingInvitations,
+  getConfirmedEventsByUserId,
 };

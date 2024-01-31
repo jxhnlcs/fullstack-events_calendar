@@ -20,7 +20,7 @@
     </div>
     <div class="event-card-footer" v-if="isHomeView">
       <i class="bx bxs-user"></i>
-      <p class="event-creator">Criado por {{ event.Name }}</p>
+      <p class="event-creator">Criado por {{ event.Name || event.InviterName }}</p>
     </div>
   </div>
 </template>

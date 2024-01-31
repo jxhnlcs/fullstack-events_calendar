@@ -21,6 +21,13 @@ const routes = [
     component: () => import('../views/MyEventsView.vue'),
     meta: { title: 'Meus Eventos' },
   },
+
+  {
+    path: '/nextevents',
+    name: 'nextevents',
+    component: () => import('../views/NextEventsView.vue'),
+    meta: { title: 'Meus Eventos' },
+  },
 ];
 
 const router = createRouter({

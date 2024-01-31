@@ -33,6 +33,17 @@
               </a>
             </router-link>
           </li>
+          <li data-tooltip="0">
+            <router-link to="/nextevents">
+              <a href="#">
+                <div class="icon">
+                  <i class="bx bx-calendar-check"></i>
+                  <i class="bx bxs-calendar-check"></i>
+                </div>
+                <span class="link hide">Meus Próximos Eventos</span>
+              </a>
+            </router-link>
+          </li>
         </ul>
       </div>
 

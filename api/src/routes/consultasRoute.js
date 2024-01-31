@@ -3,11 +3,15 @@ const router = express.Router();
 
 const loginController = require('../controllers/loginController');
 const eventController = require('../controllers/eventController');
-const inviteController = require('../controllers/inviteController')
+const inviteController = require('../controllers/inviteController');
+const userController = require('../controllers/userController')
 
-// Login
+// Rotas de Login e Cadastro
 router.post('/login', loginController.fazerLogin);
 router.post('/cadastrar', loginController.cadastrarUsuario);
+
+//Rota de Usuários
+router.get('/users', userController.getAllUsers);
 
 // Rotas de Eventos
 router.get('/events', eventController.getAllEvents);
@@ -20,5 +24,6 @@ router.delete('/events/:eventId', eventController.deleteEvent);
 router.post('/invite', inviteController.sendInvite);
 router.put('/invite/:conviteId', inviteController.updateInviteStatus);
 router.get('/invitations/:userId', inviteController.getPendingInvitations);
+router.get('/confirmed-events/:userId', inviteController.getConfirmedEventsByUserId);
 
 module.exports = router;
