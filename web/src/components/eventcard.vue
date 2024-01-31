@@ -97,7 +97,7 @@ export default {
 
 <style scoped>
 .event-card {
-  border: 1px solid #eaeaea;
+  border: 1px solid #dddddd;
   border-radius: 8px;
   padding: 15px;
   margin-bottom: 20px;

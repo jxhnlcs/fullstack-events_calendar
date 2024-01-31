@@ -107,10 +107,8 @@ export default {
             },
           });
 
-          // Redirecionar para a página inicial após o timer
           this.$router.push('/home');
         } else {
-          // Exibir notificação em caso de erro de login
           await Swal.fire({
             icon: 'error',
             title: 'Erro ao efetuar o login',
@@ -119,7 +117,6 @@ export default {
         }
 
       } catch (error) {
-        // Exibir notificação em caso de erro genérico
         await Swal.fire({
           icon: 'error',
           title: 'Erro ao efetuar o login',

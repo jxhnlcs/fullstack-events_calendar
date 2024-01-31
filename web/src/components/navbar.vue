@@ -178,7 +178,13 @@ export default {
       axios
         .put(`/invite/${conviteId}`, { status })
         .then(response => {
-          console.log(response.data.message)
+          Swal.fire({
+            icon: 'success',
+            title: 'Convite aceito com sucesso!',
+            showConfirmButton: false,
+            timer: 1500,
+          })
+          this.toggleNotifications()
           this.loadNotifications()
         })
         .catch(error => {
