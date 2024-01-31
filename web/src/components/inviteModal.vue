@@ -1,52 +1,54 @@
 <template>
   <div class="modal-overlay" v-if="showInviteModal">
+    <Navbar class="navNone" @event-added="refreshEvents" />
     <div class="modal">
       <div class="modal-header">
-        <i class='bx bx-mail-send event-icon'></i>
+        <i class="bx bx-mail-send event-icon"></i>
         <button class="close-button" @click="closeModal">&#10006;</button>
       </div>
       <h2 class="modal-title">Convidar Usuários</h2>
-      <h3 class="modal-subtitle">Selecione o evento e o usuário que deseja convidar.</h3>
+      <h3 class="modal-subtitle">
+        Selecione o evento e o usuário que deseja convidar.
+      </h3>
 
       <form @submit.prevent="handleInvite">
         <label for="eventoSelect">Selecione o Evento*</label>
         <select required v-model="selectedEvento" id="eventoSelect">
-          <option v-for="evento in eventos" :key="evento.EventID" :value="evento.EventID">{{ evento.Description }}
+          <option v-if="eventos.length === 0" disabled>Nenhum evento encontrado</option>
+          <option v-for="evento in eventos" :key="evento.EventID" :value="evento.EventID">
+            {{ evento.Description }}
           </option>
         </select>
 
         <label for="usuarioSelect">Selecione o Usuário*</label>
         <select required v-model="selectedUsuario" id="usuarioSelect">
-          <option v-for="usuario in usuarios" :key="usuario.UserID" :value="usuario.UserID">{{ usuario.Name }}</option>
+          <option v-if="usuarios.length === 0" disabled>Nenhum usuário encontrado</option>
+          <option v-for="usuario in usuarios" :key="usuario.UserID" :value="usuario.UserID">
+            {{ usuario.Name }}
+          </option>
         </select>
 
         <button type="submit">Enviar Convite</button>
       </form>
     </div>
-    <Navbar class="navNone" @event-added="refreshEvents" />
   </div>
 </template>
 
 <script>
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode'
 import axios from '@/utils/axios'
-import Swal from 'sweetalert2';
-import Navbar from '../components/navbar.vue'
+import Swal from 'sweetalert2'
 
 export default {
-
-  components: {
-    Navbar,
-  },
-
+  
   created() {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token')
     if (token) {
-      const decodedToken = jwtDecode(token);
-      this.userId = Number(decodedToken.userid);
-      this.fetchEventos();
+      const decodedToken = jwtDecode(token)
+      this.userId = Number(decodedToken.userid)
+      this.fetchEventos()
       this.fetchUsers()
-      console.log('Nenhum token encontrado no localStorage');
+      console.log('Nenhum token encontrado no localStorage')
     }
   },
 
@@ -57,7 +59,7 @@ export default {
       usuarios: [],
       selectedEvento: null,
       selectedUsuario: null,
-    };
+    }
   },
 
   props: {
@@ -66,31 +68,28 @@ export default {
 
   methods: {
 
-    refreshEvents(){
-      console.log("recebendo")
-      this.fetchEventos()
-    },
-
     fetchEventos() {
-      axios.get(`/events/${this.userId}`)
+      axios
+        .get(`/events/${this.userId}`)
         .then(response => {
-          this.eventos = response.data;
+          this.eventos = response.data
           console.log(this.eventos)
         })
         .catch(error => {
-          console.error('Erro ao buscar eventos:', error);
-        });
+          console.error('Erro ao buscar eventos:', error)
+        })
     },
 
     fetchUsers() {
-      axios.get('/users')
+      axios
+        .get('/users')
         .then(response => {
-          this.usuarios = response.data;
+          this.usuarios = response.data
           console.log(this.usuarios)
         })
         .catch(error => {
-          console.error('Erro ao buscar eventos:', error);
-        });
+          console.error('Erro ao buscar eventos:', error)
+        })
     },
 
     handleInvite() {
@@ -98,38 +97,38 @@ export default {
         ConvidadorId: this.userId,
         ConvidadoId: this.selectedUsuario,
         EventoId: this.selectedEvento,
-      };
+      }
 
-      axios.post(`/invite`, conviteData)
+      axios
+        .post(`/invite`, conviteData)
         .then(response => {
           Swal.fire({
             icon: 'success',
             title: 'Convite enviado com sucesso!',
             showConfirmButton: false,
             timer: 1500,
-          });
-          this.closeModal();
+          })
+          this.closeModal()
         })
         .catch(error => {
           Swal.fire({
             icon: 'error',
             title: 'Erro ao convidar usuário',
             text: 'Por favor, tente novamente.',
-          });
-          console.error('Erro ao convidar usuário:', error);
-        });
+          })
+          console.error('Erro ao convidar usuário:', error)
+        })
     },
 
     closeModal() {
-      this.$emit("close-invite-modal");
+      this.$emit('close-invite-modal')
     },
   },
-};
+}
 </script>
 
 <style scoped>
-
-.navNone{
+.navNone {
   display: none;
 }
 
@@ -154,10 +153,9 @@ export default {
   font-size: 20px;
 
   color: #344054;
-  border: 3px solid #EAECF0;
-  background: #FFF;
+  border: 3px solid #eaecf0;
+  background: #fff;
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
-
 }
 
 .modal-title {
@@ -206,8 +204,8 @@ select {
   gap: 8px;
   align-self: stretch;
   border-radius: 8px;
-  border: 1px solid #D0D5DD;
-  background: #FFF;
+  border: 1px solid #d0d5dd;
+  background: #fff;
   outline: none;
 
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
@@ -215,7 +213,7 @@ select {
 
 button {
   margin-top: 20px;
-  background-color: #274CB3;
+  background-color: #274cb3;
   color: white;
   border: none;
   padding: 10px 28px;

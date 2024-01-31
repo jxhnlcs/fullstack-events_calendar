@@ -26,7 +26,7 @@ const routes = [
     path: '/nextevents',
     name: 'nextevents',
     component: () => import('../views/NextEventsView.vue'),
-    meta: { title: 'Meus Eventos' },
+    meta: { title: 'Meus Próximos Eventos' },
   },
 ];
 

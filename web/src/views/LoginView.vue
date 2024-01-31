@@ -9,7 +9,7 @@
           <input type="text" placeholder="Nome" v-model="name" />
           <input type="email" placeholder="E-mail" v-model="email" />
           <input type="password" placeholder="Senha" v-model="password" />
-          <button type="submit">Sign Up</button>
+          <button type="submit">Cadastrar</button>
         </form>
       </div>
       <div class="form-container sign-in" v-if="activeForm === 'signIn'">
