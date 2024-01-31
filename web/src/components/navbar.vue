@@ -22,6 +22,9 @@
           <h3>Minhas Notificações</h3>
         </div>
         <ul>
+          <li v-if="notifications.length === 0" class="no-notifications">
+            Você não tem notificações.
+          </li>
           <li v-for="notification in notifications" :key="notification.id" class="notification-item">
             <div class="notification-content">
               <p class="notification-message">
@@ -264,6 +267,11 @@ input {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1;
   width: 300px;
+}
+
+.no-notifications{
+  list-style: none;
+  padding: 10px 10px;
 }
 
 .notifications-header {

@@ -37,7 +37,7 @@
             @click="setActiveForm('signUp')"
             :class="{ active: activeForm === 'signUp' }"
           >
-            <h1>Olá, Amigo!</h1>
+            <h1>Olá, Usuário!</h1>
             <p>Cadastre-se com seus dados pessoais para usar o site</p>
             <button class="hidden" id="register">Cadastro</button>
           </div>
